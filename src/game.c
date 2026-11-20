@@ -17,6 +17,7 @@ static void __Input()
 static void __Update()
 {
     UpdateFrameCounter();
+    ConfinePlayer();
 }
 
 static void __Draw()
@@ -37,7 +38,7 @@ void Init()
     ChangeScale((Vector2){2.0f, 2.0f});
 
     // Player
-    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f);
+    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f, (Vector2){screenWidth * 0.5f - 100, 75});
     
     
     

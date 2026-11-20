@@ -3,20 +3,23 @@
 
 char __currentSprite = 0;
 float __playerSpeed;
+Vector2 __confiens;
+Vector2 __startPos;
+Vector2 __velocity;
 
-Sprite_t playerSprites[] =
-{
-    { 301, 103, 65, 65},
-    { 301, 169, 65, 65},
-    { 301, 235, 65, 65}    
-};
-
+Sprite_t playerSprites[3];
 Vector2 playerPos;
 
-void InitPlayer(Vector2 startPos, float speed)
+void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
 {
+    playerSprites[0] =  (Sprite_t){ 301, 103, 65, 65, CENTERED_PIVOT(65 * GetScale().x , 65 * GetScale().y)};
+    playerSprites[1] =  (Sprite_t){ 301, 169, 65, 65, CENTERED_PIVOT(65 * GetScale().x , 65 * GetScale().y)};
+    playerSprites[2] =  (Sprite_t){ 301, 235, 65, 65, CENTERED_PIVOT(65 * GetScale().x , 65 * GetScale().y)};   
+
+    __startPos = startPos;
     playerPos = startPos;
     __playerSpeed = speed;    
+    __confiens = confiens;
 }
 
 Sprite_t GetPlayerCurrentSprite()
@@ -65,6 +68,26 @@ void HandlePlayerInput()
     }
 
     float dt = GetFrameTime();
-    playerPos.x += dir.x * __playerSpeed * dt;
-    playerPos.y += dir.y * __playerSpeed * dt;
+    __velocity = (Vector2){dir.x * __playerSpeed * dt, dir.y * __playerSpeed * dt};
+    
+}
+
+void ConfinePlayer()
+{
+    playerPos.x += __velocity.x;
+    float minX = __startPos.x - __confiens.x;
+    float maxX = __startPos.x + __confiens.x;
+
+    if (playerPos.x < minX) playerPos.x = minX;
+    if (playerPos.x > maxX) playerPos.x = maxX; 
+
+
+    playerPos.y += __velocity.y;
+
+    float minY = __startPos.y - __confiens.y;
+    float maxY = __startPos.y + __confiens.y;
+
+    if (playerPos.y < minY) playerPos.y = minY;
+    if (playerPos.y > maxY) playerPos.y = maxY; 
+    
 }
