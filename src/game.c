@@ -31,9 +31,16 @@ static void __Draw()
 void Init()
 {
     InitWindow(screenWidth, screenHeight, "1945");
-    InitSpriteHandler();
-    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f);
+    
+    // SpriteHandler
+    InitSpriteHandler(0.15f);
     ChangeScale((Vector2){2.0f, 2.0f});
+
+    // Player
+    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f);
+    
+    
+    
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 }
 

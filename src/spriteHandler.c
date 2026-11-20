@@ -1,19 +1,18 @@
 #include "spriteHandler.h"
 
 static Texture2D __atlas;
-static float __framePerSecond = 0.1f;
+static float __framesPerSecond = 0.1f;
 static float __timeFramePerSecond;
 static int __frameCounter = 0;
 static float __xScale = 1.0f;
 static float __yScale = 1.0f;
 
 
-// private functions
-
-void InitSpriteHandler()
+void InitSpriteHandler(float framesPerSecond)
 {
     __atlas = LoadTexture("resources/1945_atlas.png");
     __timeFramePerSecond = __timeFramePerSecond;
+    __framesPerSecond = framesPerSecond;
 }
 
 void UpdateFrameCounter()
@@ -22,7 +21,7 @@ void UpdateFrameCounter()
     if(__timeFramePerSecond <= 0)
     {
         ++__frameCounter;
-        __timeFramePerSecond = __framePerSecond;
+        __timeFramePerSecond = __framesPerSecond;
     }
 }
 

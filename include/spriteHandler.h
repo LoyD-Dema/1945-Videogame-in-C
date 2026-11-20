@@ -15,7 +15,7 @@ typedef struct Sprite {
 
 } Sprite_t;
 
-void InitSpriteHandler();
+void InitSpriteHandler(float framesPerSecond);
 void UpdateFrameCounter();
 void DrawSprite(Sprite_t sprite, Vector2 position, float rotation);
 void ChangeScale(Vector2 scale);
