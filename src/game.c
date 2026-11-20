@@ -11,7 +11,7 @@ const int screenHeight = 960;
 // Private functions
 static void __Input()
 {
-
+    HandlePlayerInput();
 }
 
 static void __Update()
@@ -22,7 +22,7 @@ static void __Update()
 static void __Draw()
 {
     ClearBackground(BLUE);
-    DrawSprite(GetPlayerCurrentSprite(), (Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 0);
+    DrawSprite(GetPlayerCurrentSprite(), playerPos, 0);
 }
 
 
@@ -32,6 +32,7 @@ void Init()
 {
     InitWindow(screenWidth, screenHeight, "1945");
     InitSpriteHandler();
+    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f);
     ChangeScale((Vector2){2.0f, 2.0f});
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 }
