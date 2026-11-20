@@ -1,12 +1,11 @@
 #include "raylib.h"
 #include "game.h"
-#include <stdio.h> 
-#include <math.h>
 #include "spriteHandler.h"
+#include "player.h"
 
 // Variables
 const int screenWidth = 1280;
-const int screenHeight = 720;
+const int screenHeight = 960;
 
 
 // Private functions
@@ -23,6 +22,7 @@ static void __Update()
 static void __Draw()
 {
     ClearBackground(BLUE);
+    DrawSprite(GetPlayerCurrentSprite(), (Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 0);
 }
 
 
@@ -31,9 +31,8 @@ static void __Draw()
 void Init()
 {
     InitWindow(screenWidth, screenHeight, "1945");
-
     InitSpriteHandler();
-
+    ChangeScale((Vector2){2.0f, 2.0f});
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 }
 

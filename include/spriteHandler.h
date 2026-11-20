@@ -19,5 +19,6 @@ void InitSpriteHandler();
 void UpdateFrameCounter();
 void DrawSprite(Sprite_t sprite, Vector2 position, float rotation);
 void ChangeScale(Vector2 scale);
+char GetFrameCounter();
 
 #endif // SPRITEHANDLER_H

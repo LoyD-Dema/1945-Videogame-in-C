@@ -39,3 +39,8 @@ void ChangeScale(Vector2 scale)
     __yScale = scale.y;
 }
 
+char GetFrameCounter()
+{
+    return __frameCounter;
+}
+
