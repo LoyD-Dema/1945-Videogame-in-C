@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-void init();
-void gameloop();
+void Init();
+void Gameloop();
 
 #endif // GAME_H

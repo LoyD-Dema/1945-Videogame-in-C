@@ -2,8 +2,8 @@
 
 int main()
 {
-    init();
-    gameloop();
+    Init();
+    Gameloop();
 
     return 0;
 }
