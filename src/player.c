@@ -12,6 +12,9 @@ float __height;
 Sprite_t playerSprites[3];
 Vector2 playerPos;
 Rectangle boxCollsion;
+float playerHealth = 10.0f;
+char playerLife = 3;
+int playerScore = 0;
 
 void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
 {
@@ -23,15 +26,15 @@ void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
     __height = height * GetScale().y;
 
 
-    playerSprites[0] =  (Sprite_t){ 301, 103, width, height, CENTERED_PIVOT(__width , __height)};
-    playerSprites[1] =  (Sprite_t){ 301, 169, width, height, CENTERED_PIVOT(__width , __height)};
-    playerSprites[2] =  (Sprite_t){ 301, 235, width, height, CENTERED_PIVOT(__width , __height)};   
+    playerSprites[0] =  (Sprite_t){ 301, 103, width, height, CENTERED_PIVOT(width , height)};
+    playerSprites[1] =  (Sprite_t){ 301, 169, width, height, CENTERED_PIVOT(width , height)};
+    playerSprites[2] =  (Sprite_t){ 301, 235, width, height, CENTERED_PIVOT(width , height)};   
 
     __startPos = startPos;
     playerPos = startPos;
     __playerSpeed = speed;    
     __confiens = confiens;
-    boxCollsion = (Rectangle){playerPos.x, playerPos.y, __width, __height};
+    boxCollsion = (Rectangle){playerPos.x, playerPos.y, __width - 35, __height - 25};
 }
 
 void UpdatePlayer()
@@ -115,5 +118,5 @@ void ConfinePlayer()
 
 void DrawPlayerCollisionRect()
 {
-    DrawRectangleLines(boxCollsion.x -__width * 0.5f, boxCollsion.y - __height * 0.5f, boxCollsion.width, boxCollsion.height, GREEN);
+    DrawRectangleLines(boxCollsion.x - boxCollsion.width * 0.5f, boxCollsion.y - boxCollsion.height * 0.5f, boxCollsion.width, boxCollsion.height, GREEN);
 }

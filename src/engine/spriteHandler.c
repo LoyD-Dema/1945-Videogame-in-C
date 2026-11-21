@@ -25,11 +25,18 @@ void UpdateFrameCounter()
     }
 }
 
-void DrawSprite(Sprite_t sprite, Vector2 position, float rotation)
+void DrawSprite(Sprite_t sprite, Vector2 position, float rotation, Color color)
 {
     DrawTexturePro(__atlas, (Rectangle){sprite.x, sprite.y,sprite.width, sprite.height}, 
                             (Rectangle){position.x, position.y, sprite.width * __xScale, sprite.height * __yScale}, 
-                            sprite.pivot, rotation, WHITE); 
+                            sprite.pivot, rotation, color); 
+}
+
+void DrawSpriteScaled(Sprite_t sprite, Vector2 position, Vector2 scale, float rotation, Color color)
+{
+    DrawTexturePro(__atlas, (Rectangle){sprite.x, sprite.y,sprite.width, sprite.height}, 
+                            (Rectangle){position.x, position.y, sprite.width * __xScale * scale.x, sprite.height * __yScale * scale.y}, 
+                            sprite.pivot, rotation, color); 
 }
 
 void ChangeScale(Vector2 scale)

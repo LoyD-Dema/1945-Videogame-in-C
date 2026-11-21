@@ -2,10 +2,11 @@
 #include "game.h"
 #include "spriteHandler.h"
 #include "player.h"
+#include "UI.h"
 
 // Variables
-const int screenWidth = 1280;
-const int screenHeight = 960;
+const int screenWidth = 1280; //640
+const int screenHeight =  960; //480
 
 
 // Private functions
@@ -25,11 +26,13 @@ static void __Update()
 static void __Draw()
 {
     ClearBackground(BLUE);
-    DrawSprite(GetPlayerCurrentSprite(), playerPos, 0);
-
-
+    DrawSprite(GetPlayerCurrentSprite(), playerPos, 0, WHITE);
+    
     // CollsionsBox
     DrawPlayerCollisionRect();
+    
+    // UI
+    DrawUI(screenWidth, screenHeight);
 }
 
 
@@ -44,7 +47,11 @@ void Init()
     ChangeScale((Vector2){2.0f, 2.0f});
 
     // Player
-    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f, (Vector2){screenWidth * 0.5f - 100, 75});
+    InitPlayer((Vector2){screenWidth * 0.5f, screenHeight * 0.5f}, 250.0f, 
+                (Vector2){screenWidth * 0.5f - 100, 75});
+
+    // UI
+    InitUI(playerHealth, playerLife);
     
     
     

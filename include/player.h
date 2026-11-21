@@ -6,6 +6,9 @@
 extern Sprite_t playerSprites[];
 extern Vector2 playerPos;
 extern Rectangle boxCollsion;
+extern float playerHealth;
+extern char playerLife;
+extern int playerScore;
 
 
 void InitPlayer(Vector2 startPos, float speed, Vector2 confines);
