@@ -3,6 +3,7 @@
 
 static float __maxPlayerHealth;
 static float __playerHealth;        // 0-1
+static char __maxPlayerLife;
 static char __playerLife;
 static int __playerScore;
 
@@ -21,9 +22,15 @@ static void DrawUI(float wWidth, float wHeight)
     DrawSprite(__splashImageSprite, (Vector2){wWidth - 25, wHeight - 25}, 0, BLACK);    // Shadow for the splashImage
     DrawSprite(__splashImageSprite, (Vector2){wWidth - 30, wHeight - 30}, 0, WHITE);
 
-    DrawSprite(__lifeSprite,  (Vector2){50, wHeight - 100}, 0, (Color){255, 255, 255, 255});
-    DrawSprite(__lifeSprite,  (Vector2){120, wHeight - 100}, 0, (Color){255, 255, 255, 255});
-    DrawSprite(__lifeSprite,  (Vector2){190, wHeight - 100}, 0, (Color){255, 255, 255, 80});
+    int xStart = 50;
+    int xOffset = 70;
+    for(int i = 0; i < __maxPlayerLife; ++i)
+    {
+        if(i < __playerLife)
+            DrawSprite(__lifeSprite,  (Vector2){xStart + xOffset * i, wHeight - 100}, 0, WHITE);
+        else
+            DrawSprite(__lifeSprite,  (Vector2){xStart + xOffset * i, wHeight - 100}, 0, (Color){255, 255, 255, 80});
+    }
     
     __backgroudSprite.pivot = BOTTOM_LEFT_PIVOT(32 * 0.4f);
     DrawSpriteScaled(__backgroudSprite, (Vector2){20, wHeight - 30}, (Vector2){4, 0.4f} , 0, BLACK);
@@ -34,7 +41,7 @@ static void DrawUI(float wWidth, float wHeight)
     DrawSprite(__healthBarOutlineSprite, (Vector2){20, wHeight - 30}, 0, WHITE);
 }
 
-void InitUI(float maxPayerHealth, char numOfLife)
+void InitUI(float maxPayerHealth, char maxLife)
 {
     // Sprites
     __backgroudSprite = (Sprite_t){433, 367, 32, 32, BOTTOM_LEFT_PIVOT(32 * 3.0f)};
@@ -43,8 +50,9 @@ void InitUI(float maxPayerHealth, char numOfLife)
     __lifeSprite = (Sprite_t){136, 202, 32, 32, BOTTOM_LEFT_PIVOT(32)};
 
     __maxPlayerHealth = maxPayerHealth;
+    __maxPlayerLife = maxLife;
     UpdateUIPlayerHealth(maxPayerHealth);
-    UpdateUIPlayerLife(numOfLife);
+    UpdateUIPlayerLife(2);
     UpdateUIPlayerScore(0);
 }
 
