@@ -14,7 +14,7 @@ static Sprite_t __healthBarOutlineSprite;
 static Sprite_t __healthBarInsideSprite;
 static Sprite_t __lifeSprite;
 
-static void __DrawLife(float wWidth, float wHeight)
+static void __DrawLife(float wHeight)
 {
     int xStart = 50;
     int xOffset = 70;
@@ -34,7 +34,7 @@ void DrawUI(float wWidth, float wHeight)
 
     DrawSprite(__splashImageSprite, (Vector2){wWidth - 25, wHeight - 25}, 0, BLACK);    // Shadow for the splashImage
     DrawSprite(__splashImageSprite, (Vector2){wWidth - 30, wHeight - 30}, 0, WHITE);
-    __DrawLife(wWidth, wHeight);
+    __DrawLife(wHeight);
     
     __backgroudSprite.pivot = BOTTOM_LEFT_PIVOT(32 * 0.4f);
     DrawSpriteScaled(__backgroudSprite, (Vector2){20, wHeight - 30}, (Vector2){4, 0.4f} , 0, BLACK);
