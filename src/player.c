@@ -63,8 +63,9 @@ void HandlePlayerInput()
     float len = sqrtf(dir.x * dir.x + dir.y * dir.y);
     if (len > 0.0f)
     {
-        dir.x /= len;
-        dir.y /= len;
+        float sum = 1.0f / len;
+        dir.x *= sum;
+        dir.y *= sum;
     }
 
     float dt = GetFrameTime();
