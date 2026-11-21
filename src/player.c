@@ -6,20 +6,40 @@ float __playerSpeed;
 Vector2 __confiens;
 Vector2 __startPos;
 Vector2 __velocity;
+float __width;
+float __height;
 
 Sprite_t playerSprites[3];
 Vector2 playerPos;
+Rectangle boxCollsion;
 
 void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
 {
-    playerSprites[0] =  (Sprite_t){ 301, 103, 65, 65, CENTERED_PIVOT(65 * GetScale().x , 65 * GetScale().y)};
-    playerSprites[1] =  (Sprite_t){ 301, 169, 65, 65, CENTERED_PIVOT(65 * GetScale().x , 65 * GetScale().y)};
-    playerSprites[2] =  (Sprite_t){ 301, 235, 65, 65, CENTERED_PIVOT(65 * GetScale().x , 65 * GetScale().y)};   
+
+    float width = 65;
+    float height = 65;
+
+    __width = width * GetScale().x;
+    __height = height * GetScale().y;
+
+
+    playerSprites[0] =  (Sprite_t){ 301, 103, width, height, CENTERED_PIVOT(__width , __height)};
+    playerSprites[1] =  (Sprite_t){ 301, 169, width, height, CENTERED_PIVOT(__width , __height)};
+    playerSprites[2] =  (Sprite_t){ 301, 235, width, height, CENTERED_PIVOT(__width , __height)};   
 
     __startPos = startPos;
     playerPos = startPos;
     __playerSpeed = speed;    
     __confiens = confiens;
+    boxCollsion = (Rectangle){playerPos.x, playerPos.y, __width, __height};
+}
+
+void UpdatePlayer()
+{
+    ConfinePlayer();
+
+    boxCollsion.x = playerPos.x;
+    boxCollsion.y = playerPos.y;
 }
 
 Sprite_t GetPlayerCurrentSprite()
@@ -91,4 +111,9 @@ void ConfinePlayer()
     if (playerPos.y < minY) playerPos.y = minY;
     if (playerPos.y > maxY) playerPos.y = maxY; 
     
+}
+
+void DrawPlayerCollisionRect()
+{
+    DrawRectangleLines(boxCollsion.x -__width * 0.5f, boxCollsion.y - __height * 0.5f, boxCollsion.width, boxCollsion.height, GREEN);
 }

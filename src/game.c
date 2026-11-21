@@ -17,13 +17,19 @@ static void __Input()
 static void __Update()
 {
     UpdateFrameCounter();
-    ConfinePlayer();
+    UpdatePlayer();
+
+    
 }
 
 static void __Draw()
 {
     ClearBackground(BLUE);
     DrawSprite(GetPlayerCurrentSprite(), playerPos, 0);
+
+
+    // CollsionsBox
+    DrawPlayerCollisionRect();
 }
 
 
