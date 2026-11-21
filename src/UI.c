@@ -52,7 +52,7 @@ void InitUI(float maxPayerHealth, char maxLife)
     __maxPlayerHealth = maxPayerHealth;
     __maxPlayerLife = maxLife;
     UpdateUIPlayerHealth(maxPayerHealth);
-    UpdateUIPlayerLife(2);
+    UpdateUIPlayerLife(maxLife);
     UpdateUIPlayerScore(0);
 }
 
