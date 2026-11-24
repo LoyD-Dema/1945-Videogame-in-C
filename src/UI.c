@@ -81,7 +81,7 @@ void UpdateUIPlayerHealth(float newHealth)
 
     // Change color from Green to Red
     Vector3 green = ColorToHSV(GREEN);
-    Vector3 red = ColorToHSV((Color){230, 41, 41, 255});
+    Vector3 red = ColorToHSV((Color){230, 41, 41, 255});    // Red
     Vector3 finalColor = __VectorLerp(red, green, __playerHealth);
     __healthBarColor = ColorFromHSV(finalColor.x, finalColor.y, finalColor.z);
 }
