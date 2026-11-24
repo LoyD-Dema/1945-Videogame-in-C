@@ -8,6 +8,8 @@ Vector2 __startPos;
 Vector2 __velocity;
 float __width;
 float __height;
+float __fireRate = 0.5f;
+float __elapsedFireRateTime;
 
 Sprite_t playerSprites[3];
 Vector2 playerPos;
@@ -16,53 +18,9 @@ float playerHealth = 10.0f;
 char playerLife = 3;
 unsigned int playerScore = 0;
 
-void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
+#pragma region Private Functions
+static void __HandleMovement()
 {
-
-    float width = 65;
-    float height = 65;
-
-    __width = width * GetScale().x;
-    __height = height * GetScale().y;
-
-
-    playerSprites[0] =  (Sprite_t){ 301, 103, width, height, CENTERED_PIVOT(width , height)};
-    playerSprites[1] =  (Sprite_t){ 301, 169, width, height, CENTERED_PIVOT(width , height)};
-    playerSprites[2] =  (Sprite_t){ 301, 235, width, height, CENTERED_PIVOT(width , height)};   
-
-    __startPos = startPos;
-    playerPos = startPos;
-    __playerSpeed = speed;    
-    __confiens = confiens;
-    boxCollsion = (Rectangle){playerPos.x, playerPos.y, __width - 35, __height - 25};
-}
-
-void UpdatePlayer()
-{
-    ConfinePlayer();
-
-    boxCollsion.x = playerPos.x;
-    boxCollsion.y = playerPos.y;
-}
-
-Sprite_t GetPlayerCurrentSprite()
-{
-    Sprite_t tmp;
-
-    switch(GetFrameCounter() % (sizeof(playerSprites) / sizeof(playerSprites[0])))
-    {
-        default:
-        case 0:
-            return playerSprites[0];
-        case 1:
-            return playerSprites[1];
-        case 2:
-            return playerSprites[2];
-    }
-}
-
-void HandlePlayerInput()
-{   
     Vector2 dir = (Vector2){0, 0};
 
     if (IsKeyDown(KEY_A))
@@ -93,10 +51,29 @@ void HandlePlayerInput()
 
     float dt = GetFrameTime();
     __velocity = (Vector2){dir.x * __playerSpeed * dt, dir.y * __playerSpeed * dt};
-    
 }
 
-void ConfinePlayer()
+static void __Shoot()
+{
+    // Pooling
+    TraceLog(LOG_INFO,"Im Shooting");
+}
+
+static void __HandleShoot()
+{
+    if(IsKeyDown(KEY_SPACE))
+    {
+        if(__elapsedFireRateTime <= 0)
+        {
+            __elapsedFireRateTime = __fireRate;
+            
+            // Can shoot
+            __Shoot();
+        }
+    }
+}
+
+static void __ConfinePlayer()
 {
     playerPos.x += __velocity.x;
     float minX = __startPos.x - __confiens.x;
@@ -115,6 +92,65 @@ void ConfinePlayer()
     if (playerPos.y > maxY) playerPos.y = maxY; 
     
 }
+
+#pragma endregion
+
+void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
+{
+
+    float width = 65;
+    float height = 65;
+
+    __width = width * GetScale().x;
+    __height = height * GetScale().y;
+    __elapsedFireRateTime = 0;
+
+
+    playerSprites[0] =  (Sprite_t){ 301, 103, width, height, CENTERED_PIVOT(width , height)};
+    playerSprites[1] =  (Sprite_t){ 301, 169, width, height, CENTERED_PIVOT(width , height)};
+    playerSprites[2] =  (Sprite_t){ 301, 235, width, height, CENTERED_PIVOT(width , height)};   
+
+    __startPos = startPos;
+    playerPos = startPos;
+    __playerSpeed = speed;    
+    __confiens = confiens;
+    boxCollsion = (Rectangle){playerPos.x, playerPos.y, __width - 35, __height - 25};
+}
+
+void HandlePlayerInput()
+{   
+    __HandleMovement();
+    __HandleShoot();
+}
+
+void UpdatePlayer()
+{
+    __ConfinePlayer();
+
+    // Update boxCollider pod
+    boxCollsion.x = playerPos.x;
+    boxCollsion.y = playerPos.y;
+
+    __elapsedFireRateTime -= GetFrameTime();
+}
+
+Sprite_t GetPlayerCurrentSprite()
+{
+    switch(GetFrameCounter() % (sizeof(playerSprites) / sizeof(playerSprites[0])))
+    {
+        default:
+        case 0:
+            return playerSprites[0];
+        case 1:
+            return playerSprites[1];
+        case 2:
+            return playerSprites[2];
+    }
+}
+
+
+
+
 
 void DrawPlayerCollisionRect()
 {

@@ -12,10 +12,9 @@ extern unsigned int playerScore;
 
 
 void InitPlayer(Vector2 startPos, float speed, Vector2 confines);
+void HandlePlayerInput();
 void UpdatePlayer();
 Sprite_t GetPlayerCurrentSprite();
-void HandlePlayerInput();
-void ConfinePlayer();
 void DrawPlayerCollisionRect();
 
 
