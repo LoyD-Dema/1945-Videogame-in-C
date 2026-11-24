@@ -1,7 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
-void InitUI(float maxPayerHealth, char maxLife);
+void InitUI(float maxPlayerHealth, char maxLife);
 
 void DrawUI(float wWidth, float wHeight);
 void UpdateUIPlayerHealth(float newHealth);
