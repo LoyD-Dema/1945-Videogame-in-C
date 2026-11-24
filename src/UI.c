@@ -2,10 +2,10 @@
 #include "spriteHandler.h"
 
 static float __maxPlayerHealth;
-static float __playerHealth;        // 0-1
+static float __playerHealth;        // normalized: 0-1
 static char __maxPlayerLife;
 static char __playerLife;
-static int __playerScore;
+static unsigned int __playerScore;
 
 // Sprites
 static Sprite_t __backgroudSprite;
@@ -43,6 +43,8 @@ void DrawUI(float wWidth, float wHeight)
     DrawSpriteScaled(__backgroudSprite, (Vector2){20, wHeight - 30}, (Vector2){4 * __playerHealth, 0.4f} , 0, GREEN);
 
     DrawSprite(__healthBarOutlineSprite, (Vector2){20, wHeight - 30}, 0, WHITE);
+
+    DrawText(TextFormat("Score:\n%d", __playerScore), 400, wHeight - 150, 25, YELLOW);
 }
 
 void InitUI(float maxPayerHealth, char maxLife)
@@ -57,7 +59,7 @@ void InitUI(float maxPayerHealth, char maxLife)
     __maxPlayerLife = maxLife;
     UpdateUIPlayerHealth(maxPayerHealth);
     UpdateUIPlayerLife(maxLife);
-    UpdateUIPlayerScore(0);
+    UpdateUIPlayerScore(290392);
 }
 
 void UpdateUIPlayerHealth(float newHealth)
@@ -70,7 +72,7 @@ void UpdateUIPlayerLife(char numCurrentLife)
     __playerLife = numCurrentLife;
 }
 
-void UpdateUIPlayerScore(int newScore)
+void UpdateUIPlayerScore(unsigned int newScore)
 {
     __playerScore = newScore;
 }

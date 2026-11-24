@@ -6,7 +6,7 @@ void InitUI(float maxPayerHealth, char maxLife);
 void DrawUI(float wWidth, float wHeight);
 void UpdateUIPlayerHealth(float newHealth);
 void UpdateUIPlayerLife(char numCurrentLife);
-void UpdateUIPlayerScore(int newScore);
+void UpdateUIPlayerScore(unsigned int newScore);
 
 
 #endif // UI_H

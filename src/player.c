@@ -14,7 +14,7 @@ Vector2 playerPos;
 Rectangle boxCollsion;
 float playerHealth = 10.0f;
 char playerLife = 3;
-int playerScore = 0;
+unsigned int playerScore = 0;
 
 void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
 {
