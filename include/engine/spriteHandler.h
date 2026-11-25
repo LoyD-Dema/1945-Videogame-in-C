@@ -31,4 +31,6 @@ void ChangeScale(Vector2 scale);
 Vector2 GetScale();
 char GetFrameCounter();
 
+void DrawSpriteTiled(Sprite_t sprite, Vector2 startPos, float rotation, float width, float height, Color color);  
+
 #endif // SPRITEHANDLER_H

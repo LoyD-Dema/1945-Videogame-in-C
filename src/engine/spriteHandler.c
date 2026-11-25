@@ -55,3 +55,17 @@ char GetFrameCounter()
     return __frameCounter;
 }
 
+
+void DrawSpriteTiled(Sprite_t sprite, Vector2 startPos, float rotation, float width, float height, Color color)
+{
+    for (int i = 0; i < width; ++i)
+    {
+        for (int j = 0; j < height; ++j)
+        {
+            Vector2 pos = (Vector2){startPos.x + i * sprite.width * GetScale().x, 
+                                    startPos.y + j * sprite.height * GetScale().y};
+            DrawSprite(sprite, pos, rotation, color);
+        }
+    }
+}
+
