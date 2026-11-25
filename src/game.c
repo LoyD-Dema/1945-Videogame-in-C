@@ -3,6 +3,7 @@
 #include "spriteHandler.h"
 #include "player.h"
 #include "UI.h"
+#include <math.h>
 
 // Variables
 const int screenWidth = 1280; //640
@@ -12,19 +13,25 @@ const int screenHeight =  960; //480
 // Private functions
 static void __Input()
 {
+    // Player
     HandlePlayerInput();
 }
 
 static void __Update()
 {
+    // SpriteHandler
     UpdateFrameCounter();
+
+    // Player
     UpdatePlayer();
 }
 
 static void __Draw()
 {
-    ClearBackground(BLUE);
-    DrawSprite(GetPlayerCurrentSprite(), playerPos, 0, WHITE);
+    ClearBackground(BLACK);
+    
+    // Player
+    DrawPlayer();
     
     // CollsionsBox
     DrawPlayerCollisionRect();

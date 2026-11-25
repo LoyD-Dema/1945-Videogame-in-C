@@ -1,18 +1,18 @@
 #include "player.h"
 #include <math.h>
 
-char __currentSprite = 0;
-float __playerSpeed;
-Vector2 __confiens;
-Vector2 __startPos;
-Vector2 __velocity;
-float __width;
-float __height;
-float __fireRate = 0.5f;
-float __elapsedFireRateTime;
+static char __currentSprite = 0;
+static float __playerSpeed;
+static Vector2 __confiens;
+static Vector2 __startPos;
+static Vector2 __velocity;
+static float __width;
+static float __height;
+static float __fireRate = 0.5f;
+static float __elapsedFireRateTime;
+static Vector2 __playerPos;
 
 Sprite_t playerSprites[3];
-Vector2 playerPos;
 Rectangle boxCollsion;
 float playerHealth = 10.0f;
 char playerLife = 3;
@@ -75,22 +75,36 @@ static void __HandleShoot()
 
 static void __ConfinePlayer()
 {
-    playerPos.x += __velocity.x;
+    __playerPos.x += __velocity.x;
     float minX = __startPos.x - __confiens.x;
     float maxX = __startPos.x + __confiens.x;
 
-    if (playerPos.x < minX) playerPos.x = minX;
-    if (playerPos.x > maxX) playerPos.x = maxX; 
+    if (__playerPos.x < minX) __playerPos.x = minX;
+    if (__playerPos.x > maxX) __playerPos.x = maxX; 
 
 
-    playerPos.y += __velocity.y;
+    __playerPos.y += __velocity.y;
 
     float minY = __startPos.y - __confiens.y;
     float maxY = __startPos.y + __confiens.y;
 
-    if (playerPos.y < minY) playerPos.y = minY;
-    if (playerPos.y > maxY) playerPos.y = maxY; 
+    if (__playerPos.y < minY) __playerPos.y = minY;
+    if (__playerPos.y > maxY) __playerPos.y = maxY; 
     
+}
+
+Sprite_t __GetCurrentPlayerSprite()
+{
+    switch(GetFrameCounter() % (sizeof(playerSprites) / sizeof(playerSprites[0])))
+    {
+        default:
+        case 0:
+            return playerSprites[0];
+        case 1:
+            return playerSprites[1];
+        case 2:
+            return playerSprites[2];
+    }
 }
 
 #pragma endregion
@@ -111,10 +125,10 @@ void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
     playerSprites[2] =  (Sprite_t){ 301, 235, width, height, CENTERED_PIVOT(width , height)};   
 
     __startPos = startPos;
-    playerPos = startPos;
+    __playerPos = startPos;
     __playerSpeed = speed;    
     __confiens = confiens;
-    boxCollsion = (Rectangle){playerPos.x, playerPos.y, __width - 35, __height - 25};
+    boxCollsion = (Rectangle){__playerPos.x, __playerPos.y, __width - 35, __height - 25};
 }
 
 void HandlePlayerInput()
@@ -128,31 +142,23 @@ void UpdatePlayer()
     __ConfinePlayer();
 
     // Update boxCollider pod
-    boxCollsion.x = playerPos.x;
-    boxCollsion.y = playerPos.y;
+    boxCollsion.x = __playerPos.x;
+    boxCollsion.y = __playerPos.y;
 
     __elapsedFireRateTime -= GetFrameTime();
 }
 
-Sprite_t GetPlayerCurrentSprite()
+void DrawPlayer()
 {
-    switch(GetFrameCounter() % (sizeof(playerSprites) / sizeof(playerSprites[0])))
-    {
-        default:
-        case 0:
-            return playerSprites[0];
-        case 1:
-            return playerSprites[1];
-        case 2:
-            return playerSprites[2];
-    }
+    DrawSprite(__GetCurrentPlayerSprite(), __playerPos, 0, WHITE);
 }
-
-
-
-
 
 void DrawPlayerCollisionRect()
 {
     DrawRectangleLines(boxCollsion.x - boxCollsion.width * 0.5f, boxCollsion.y - boxCollsion.height * 0.5f, boxCollsion.width, boxCollsion.height, GREEN);
+}
+
+Vector2 GetPlayerPos()
+{
+    return __playerPos;
 }
