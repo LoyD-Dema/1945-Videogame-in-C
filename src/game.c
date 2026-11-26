@@ -3,7 +3,7 @@
 #include "spriteHandler.h"
 #include "player.h"
 #include "UI.h"
-#include <math.h>
+#include "background.h"
 
 // Variables
 const int screenWidth = 1280; //640
@@ -24,12 +24,18 @@ static void __Update()
 
     // Player
     UpdatePlayer();
+
+    // Background
+    UpdateBackground();
 }
 
 static void __Draw()
 {
-    ClearBackground(BLACK);
+    ClearBackground(BLUE);
     
+    // Background
+    DrawBackground();
+
     // Player
     DrawPlayer();
     
@@ -55,10 +61,11 @@ void Init()
     InitPlayer((Vector2){screenWidth * 0.5f, screenHeight - 350}, 250.0f, 
                 (Vector2){screenWidth * 0.5f - 100, 75});
 
+    // Background
+    InitBackground();
+
     // UI
     InitUI(playerHealth, playerLife);
-    
-    
     
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 }

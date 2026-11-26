@@ -15,7 +15,7 @@ void HandlePlayerInput();
 void UpdatePlayer();
 void DrawPlayer();
 void DrawPlayerCollisionRect();
-void GetPlayerPos();
+Vector2 GetPlayerPos();
 
 
 
