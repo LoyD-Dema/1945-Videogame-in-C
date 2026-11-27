@@ -1,5 +1,7 @@
 #include "player.h"
 #include <math.h>
+#include "bullet.h"
+#include "stdlib.h"
 
 static char __currentSprite = 0;
 static float __playerSpeed;
@@ -8,12 +10,13 @@ static Vector2 __startPos;
 static Vector2 __velocity;
 static float __width;
 static float __height;
-static float __fireRate = 0.5f;
+static float __fireRate = 0.15f;
 static float __elapsedFireRateTime;
 static Vector2 __playerPos;
+static BulletQueue_t bQueue;
 
 Sprite_t playerSprites[3];
-Rectangle boxCollsion;
+Rectangle playerBoxCollider;
 float playerHealth = 10.0f;
 char playerLife = 3;
 unsigned int playerScore = 0;
@@ -56,7 +59,14 @@ static void __HandleMovement()
 static void __Shoot()
 {
     // Pooling
-    TraceLog(LOG_INFO,"Im Shooting");
+    Bullet_t* b = Dequeue(&bQueue);
+    if(b != NULL)
+    {
+        b->position = (Vector2){__playerPos.x, __playerPos.y - 50};
+        b->boxCollider.x = __playerPos.x;
+        b->boxCollider.y = __playerPos.y;
+        b->isActive = true;
+    }
 }
 
 static void __HandleShoot()
@@ -128,7 +138,9 @@ void InitPlayer(Vector2 startPos, float speed, Vector2 confiens)
     __playerPos = startPos;
     __playerSpeed = speed;    
     __confiens = confiens;
-    boxCollsion = (Rectangle){__playerPos.x, __playerPos.y, __width - 35, __height - 25};
+    playerBoxCollider = (Rectangle){__playerPos.x, __playerPos.y, __width - 35, __height - 25};
+
+    InitQueue(&bQueue);
 }
 
 void HandlePlayerInput()
@@ -142,20 +154,26 @@ void UpdatePlayer()
     __ConfinePlayer();
 
     // Update boxCollider pod
-    boxCollsion.x = __playerPos.x;
-    boxCollsion.y = __playerPos.y;
+    playerBoxCollider.x = __playerPos.x;
+    playerBoxCollider.y = __playerPos.y;
 
     __elapsedFireRateTime -= GetFrameTime();
+
+    UpdateBullets(&bQueue);
 }
 
 void DrawPlayer()
 {
+    DrawBullets(&bQueue);
     DrawSprite(__GetCurrentPlayerSprite(), __playerPos, 0, WHITE);
 }
 
 void DrawPlayerCollisionRect()
 {
-    DrawRectangleLines(boxCollsion.x - boxCollsion.width * 0.5f, boxCollsion.y - boxCollsion.height * 0.5f, boxCollsion.width, boxCollsion.height, GREEN);
+    DrawRectangleLines(playerBoxCollider.x - playerBoxCollider.width * 0.5f, 
+                            playerBoxCollider.y - playerBoxCollider.height * 0.5f, 
+                            playerBoxCollider.width, playerBoxCollider.height, GREEN);
+    DrawBulletsCollisionRect(&bQueue);
 }
 
 Vector2 GetPlayerPos()

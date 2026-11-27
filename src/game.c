@@ -4,6 +4,7 @@
 #include "player.h"
 #include "UI.h"
 #include "background.h"
+#include "bullet.h"
 
 // Variables
 const int screenWidth = 1280; //640
@@ -63,6 +64,9 @@ void Init()
 
     // Background
     InitBackground();
+
+    // Bullet
+    InitBullet();
 
     // UI
     InitUI(playerHealth, playerLife);
